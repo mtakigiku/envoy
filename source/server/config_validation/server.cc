@@ -28,6 +28,7 @@ ValidationInstance::ValidationInstance(Options& options, Stats::IsolatedStoreImp
       api_(new Api::ValidationImpl(options.fileFlushIntervalMsec())),
       dispatcher_(api_->allocateDispatcher()), local_info_(local_info),
       access_log_manager_(*api_, *dispatcher_, access_log_lock, store),
+      http_route_manager_(runtime(), dispatcher(), random(), localInfo(), threadLocal()),
       listener_manager_(*this, *this, *this) {
   try {
     initialize(options, component_factory);
