@@ -18,6 +18,7 @@
 #include "common/common/version.h"
 #include "common/memory/stats.h"
 #include "common/network/address_impl.h"
+#include "common/router/rds_impl.h"
 #include "common/runtime/runtime_impl.h"
 #include "common/stats/statsd.h"
 #include "common/upstream/cluster_manager_impl.h"
@@ -179,6 +180,8 @@ void InstanceImpl::initialize(Options& options, ComponentFactory& component_fact
   cluster_manager_factory_.reset(new Upstream::ProdClusterManagerFactory(
       runtime(), stats(), threadLocal(), random(), dnsResolver(), sslContextManager(), dispatcher(),
       localInfo()));
+
+  http_route_manager_.reset(new Router::HttpRouteManagerImpl());
 
   // Now the configuration gets parsed. The configuration may start setting thread local data
   // per above. See MainImpl::initialize() for why we do this pointer dance.
