@@ -16,8 +16,8 @@ namespace Router {
 RouteConfigProviderSharedPtr
 RouteConfigProviderUtil::create(const Json::Object& config, Runtime::Loader& runtime,
                                 Upstream::ClusterManager& cm, Stats::Scope& scope,
-                                const std::string& stat_prefix,
-                                Init::Manager& init_manager, HttpRouteManager& http_route_manager) {
+                                const std::string& stat_prefix, Init::Manager& init_manager,
+                                HttpRouteManager& http_route_manager) {
   bool has_rds = config.hasObject("rds");
   bool has_route_config = config.hasObject("route_config");
   if (!(has_rds ^ has_route_config)) {
@@ -126,7 +126,11 @@ void RdsRouteConfigProviderImpl::registerInitTarget(Init::Manager& init_manager)
 }
 
 HttpRouteManagerImpl::HttpRouteManagerImpl(Runtime::Loader& runtime, Event::Dispatcher& dispatcher,
-  Runtime::RandomGenerator& random, const LocalInfo::LocalInfo& local_info, ThreadLocal::SlotAllocator& tls) : runtime_(runtime), dispatcher_(dispatcher), random_(random), local_info_(local_info), tls_(tls) {}
+                                           Runtime::RandomGenerator& random,
+                                           const LocalInfo::LocalInfo& local_info,
+                                           ThreadLocal::SlotAllocator& tls)
+    : runtime_(runtime), dispatcher_(dispatcher), random_(random), local_info_(local_info),
+      tls_(tls) {}
 
 std::vector<Router::RouteConfigProviderSharedPtr> HttpRouteManagerImpl::routeConfigProviders() {
   std::vector<Router::RouteConfigProviderSharedPtr> ret;
@@ -138,8 +142,8 @@ std::vector<Router::RouteConfigProviderSharedPtr> HttpRouteManagerImpl::routeCon
 };
 
 Router::RouteConfigProviderSharedPtr HttpRouteManagerImpl::getRouteConfigProvider(
-    const Json::Object& config, Upstream::ClusterManager& cm, Stats::Scope& scope, const std::string& stat_prefix,
-    Init::Manager& init_manager) {
+    const Json::Object& config, Upstream::ClusterManager& cm, Stats::Scope& scope,
+    const std::string& stat_prefix, Init::Manager& init_manager) {
 
   // RdsRouteConfigProviders are unique based on their <route_config_name>_<cluster>.
   std::string map_identifier = config.getString("route_config_name") + "_";

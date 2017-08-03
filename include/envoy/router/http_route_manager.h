@@ -35,10 +35,11 @@ public:
    * @param stat_prefix supplies the stat_prefix to use for the provider stats.
    * @param init_manager supplies the init manager.
    */
-  virtual RouteConfigProviderSharedPtr
-  getRouteConfigProvider(const Json::Object& config, Upstream::ClusterManager& cm,
-                         Stats::Scope& scope, const std::string& stat_prefix,
-                         Init::Manager& init_manager) PURE;
+  virtual RouteConfigProviderSharedPtr getRouteConfigProvider(const Json::Object& config,
+                                                              Upstream::ClusterManager& cm,
+                                                              Stats::Scope& scope,
+                                                              const std::string& stat_prefix,
+                                                              Init::Manager& init_manager) PURE;
 };
 
 /**

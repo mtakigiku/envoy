@@ -221,10 +221,10 @@ public:
 
   MOCK_METHOD0(routeConfigProviders, std::vector<RouteConfigProviderSharedPtr>());
   MOCK_METHOD5(getRouteConfigProvider,
-                RouteConfigProviderSharedPtr(
-                    const Json::Object& config, Upstream::ClusterManager& cm,
-                    Stats::Scope& scope, const std::string& stat_prefix,
-                    Init::Manager& init_manager));
+               RouteConfigProviderSharedPtr(const Json::Object& config,
+                                            Upstream::ClusterManager& cm, Stats::Scope& scope,
+                                            const std::string& stat_prefix,
+                                            Init::Manager& init_manager));
   MOCK_METHOD1(removeRouteConfigProvider, void(const std::string& identifier));
 };
 

@@ -27,11 +27,11 @@ public:
    * @return RouteConfigProviderPtr a new route configuration provider based on the supplied JSON
    *         configuration.
    */
-  static RouteConfigProviderSharedPtr
-  create(const Json::Object& config, Runtime::Loader& runtime, Upstream::ClusterManager& cm,
-         Stats::Scope& scope,
-         const std::string& stat_prefix,
-         Init::Manager& init_manager, HttpRouteManager& http_route_manager);
+  static RouteConfigProviderSharedPtr create(const Json::Object& config, Runtime::Loader& runtime,
+                                             Upstream::ClusterManager& cm, Stats::Scope& scope,
+                                             const std::string& stat_prefix,
+                                             Init::Manager& init_manager,
+                                             HttpRouteManager& http_route_manager);
 };
 
 /**
@@ -125,17 +125,19 @@ private:
 
 class HttpRouteManagerImpl : public ServerHttpRouteManager {
 public:
-  HttpRouteManagerImpl(Runtime::Loader& runtime,
-                       Event::Dispatcher& dispatcher,
-                       Runtime::RandomGenerator& random, const LocalInfo::LocalInfo& local_info, ThreadLocal::SlotAllocator& tls);
+  HttpRouteManagerImpl(Runtime::Loader& runtime, Event::Dispatcher& dispatcher,
+                       Runtime::RandomGenerator& random, const LocalInfo::LocalInfo& local_info,
+                       ThreadLocal::SlotAllocator& tls);
   ~HttpRouteManagerImpl() {}
 
   // Server::ServerHttpRouteManager
   std::vector<RouteConfigProviderSharedPtr> routeConfigProviders() override;
   // Server::HttpRouteManager
-  RouteConfigProviderSharedPtr
-  getRouteConfigProvider(const Json::Object& config, Upstream::ClusterManager& cm,
-                         Stats::Scope& scope, const std::string& stat_prefix, Init::Manager& init_manager) override;
+  RouteConfigProviderSharedPtr getRouteConfigProvider(const Json::Object& config,
+                                                      Upstream::ClusterManager& cm,
+                                                      Stats::Scope& scope,
+                                                      const std::string& stat_prefix,
+                                                      Init::Manager& init_manager) override;
 
 private:
   std::unordered_map<std::string, std::weak_ptr<RouteConfigProvider>> route_config_providers_;
